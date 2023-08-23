@@ -1,0 +1,20 @@
+CC=x86_64-w64-mingw32-g++
+SDL_CONFIG=./build/libs/sdl2-2.26.5-mingw-win/x86_64-w64-mingw32/bin/sdl2-config
+CFLAGS := -O3 -Wall $(shell $(SDL_CONFIG) --cflags) -DGLEW_STATIC
+#LDFLAGS := -static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic -lmingw32 -lglew32 -lglu32 -lopengl32 $(shell $(SDL_CONFIG) --static-libs) $(LIBS)
+LDFLAGS := ./build/libs/glew-2.1.0-win32/lib/Release/x64/glew32s.lib -static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic -lmingw32 -lglu32 -lopengl32 $(shell $(SDL_CONFIG) --static-libs) $(LIBS)
+OBJ=main.o device.o board.o memory.o ula.o z80.o sound.o keyboard.o wd1793.o tape.o mouse.o joystick.o config.o snapshot.o disasm.o ui.o
+
+
+all: $(OBJ)
+
+.cpp.o:
+	$(CC) $(CFLAGS) -c $< -o $@
+all:
+	$(CC) $(OBJ) $(LDFLAGS) -o ./emul.exe
+
+all: $(OBJ)
+
+clean:
+	rm -f *.o
+	rm -f ./emul.exe

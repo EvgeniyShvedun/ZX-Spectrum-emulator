@@ -1,0 +1,17 @@
+CC=g++ 
+CFLAGS := -O3 -Wall $(shell sdl2-config --cflags)
+LDFLAGS := -lGLEW -lGLU -lGL $(shell sdl2-config --libs)
+OBJ=main.o device.o board.o memory.o ula.o z80.o sound.o keyboard.o wd1793.o tape.o mouse.o joystick.o config.o snapshot.o disasm.o
+
+all: $(OBJ)
+
+.cpp.o:
+	$(CC) $(CFLAGS) -c $< -o $@
+all:
+	$(CC) $(OBJ) $(LDFLAGS) -o ./emul
+
+all: $(OBJ)
+
+clean:
+	rm -f *.o
+	rm -f ./emul
